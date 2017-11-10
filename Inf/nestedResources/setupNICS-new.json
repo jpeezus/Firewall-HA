@@ -1,0 +1,146 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "type": "string"
+    },
+    "nicName": {
+      "type": "string"
+    },
+    "subnet0Name": {
+      "type": "string"
+    },
+    "subnet1Name": {
+      "type": "string"
+    },
+    "subnet2Name": {
+      "type": "string"
+    },
+    "virtualNetworkName": {
+      "type": "string"
+    },
+    "virtualNetworkExistingRGName": {
+      "type": "string"
+    },
+    "MgmtPublicIPAddressName": {
+      "type": "string"
+    },
+    "baseUrl": {
+      "type": "string"
+    }
+  },
+  "variables": {
+    "apiVersions": {
+      "resources": {
+          "deployments": "2016-09-01"
+      },
+      "storage": {
+          "storageAccounts": "2017-06-01"
+      },
+      "network": {
+          "virtualNetworks": "2017-10-01",
+          "networkInterfaces": "2017-10-01",
+          "loadBalancers": "2017-10-01",
+          "publicIPAddresses": "2017-10-01",
+          "networkSecurityGroups": "2017-10-01"
+      },
+      "compute": {
+          "availabilitySets": "2017-03-30",
+          "virtualMachines": "2017-03-30",
+          "virtualMachineExtensions": "2017-03-30"
+      }
+  },
+      "vnetID": "[resourceId(parameters('virtualNetworkExistingRGName'),concat('Microsoft.Network','/','virtualNetworks'),parameters('virtualNetworkName'))]",
+      "subnet0Ref": "[concat(variables('vnetID'),'/subnets/',parameters('subnet0Name'))]",
+      "subnet1Ref": "[concat(variables('vnetID'),'/subnets/',parameters('subnet1Name'))]",
+      "subnet2Ref": "[concat(variables('vnetID'),'/subnets/',parameters('subnet2Name'))]",
+      "mgmtpip": "[concat('mgmtIP-', parameters('MgmtPublicIPAddressName'))]",
+      "setupUntrustNICURL": "[concat(parameters('baseUrl'),'/setupNICS-untrust.json')]"
+  },
+  "resources": [
+    {
+      "name": "[concat('eth0-', parameters('nicName'))]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "location": "[parameters('location')]",
+      "apiVersion": "[variables('apiVersions').network.networkInterfaces]",
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig-mgmt",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "publicIPAddress": {
+                 "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('mgmtpip'))]"
+              },
+              "subnet": {
+                "id": "[variables('subnet0Ref')]"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "[concat('SetupNetworkInterfaceUntrust-', parameters('nicName'))]",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "[variables('apiVersions').resources.deployments]",
+      "dependsOn": [
+        "[concat('eth0-', parameters('nicName'))]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('setupUntrustNICURL')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "nicName": {
+            "value": "[parameters('nicName')]"
+          },
+          "subnet1Name": {
+            "value": "[parameters('subnet1Name')]"
+          },
+          "virtualNetworkName": {
+            "value": "[parameters('virtualNetworkName')]"
+          },
+          "virtualNetworkExistingRGName": {
+            "value": "[parameters('virtualNetworkExistingRGName')]"
+          }
+        }
+      }
+    },
+    {
+      "name": "[concat('eth2-', parameters('nicName'))]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "location": "[parameters('location')]",
+      "apiVersion": "[variables('apiVersions').network.networkInterfaces]",
+      "dependsOn": [
+        "[concat('SetupNetworkInterfaceUntrust-', parameters('nicName'))]"
+      ],
+      "properties": {
+        "enableIPForwarding": true,
+        "ipConfigurations": [
+          {
+            "name": "ipconfig-trust",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[variables('subnet2Ref')]"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "outputs": {
+    "UntrustPrivateIPAddress": {
+      "value": "[reference(concat('SetupNetworkInterfaceUntrust-', parameters('nicName'))).outputs.UntrustPrivateIPAddress.value]",
+      "type": "string"
+    }
+  }
+}
