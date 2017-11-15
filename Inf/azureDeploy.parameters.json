@@ -1,27 +1,114 @@
 {
-  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
+    "location": {
+      "value": "eastUS"
+    },
+    "networkSecurityGroupName": {
+      "value": "nsg-mgmt"
+    },
     "networkSecurityGroupInboundSrcIP": {
       "value": "0.0.0.0/0"
+    },
+    "virtualNetworkName": {
+      "value": "vnet-FW"
+    },
+    "virtualNetworkNewOrExisting": {
+      "value": "new"
+    },
+    "existingVnetRG": {
+      "value": "e2einfandFunc"
     },
     "virtualNetworkAddressPrefix": {
       "value": "192.168.0.0/16"
     },
-    "virtualNetworkNewOrExisting": {
-      "value": "existing"
+    "MgmtSubnetName": {
+      "value": "Mgmt"
     },
-    "username": {
-      "value": "DEFAULT-USER"
+    "mgmtSubnetPrefix": {
+      "value": "192.168.0.0/24"
     },
-    "password": {
-      "value": "DEFAULT-PASSWORD"
+    "untrustedSubnetName": {
+      "value": "Untrust"
+    },
+    "untrustedSubnetPrefix": {
+      "value": "192.168.1.0/24"
+    },
+    "trustedSubnetName": {
+      "value": "Trust"
+    },
+    "trustedSubnetPrefix": {
+      "value": "192.168.2.0/24"
+    },
+    "appGatewayName": {
+      "value": "myAppGw"
+    },
+    "appGatewayDnsName": {
+      "value": "uniq121017app"
+    },
+    "appGatewaySubnetName": {
+      "value": "AppGWSubnet"
+    },
+    "appGatewaySubnetPrefix": {
+      "value": "192.168.3.0/24"
+    },
+    "internalLoadBalancerName": {
+      "value": "myPrivateLB"
+    },
+    "backendSubnetName": {
+      "value": "backendSubnet"
+    },
+    "backendSubnetPrefix": {
+      "value": "192.168.4.0/24"
+    },
+    "backendVmSize": {
+      "value": "Standard_D1"
+    },
+    "firewallModel": {
+      "value": "byol"
+    },
+    "firewallVmName": {
+      "value": "VM-Series"
+    },
+    "firewallVmSize": {
+      "value": "Standard_D3_v2"
+    },
+    "MgmtPublicIPAddressName": {
+      "value": "uniq121017pip"
     },
     "storageAccountName": {
-      "value": "DEFAULT-STORAGE"
+      "value": "uniq121017str"
     },
     "storageAccountNewOrExisting": {
-      "value": "existing"
+      "value": "new"
+    },
+    "storageAccountType": {
+      "value": "Standard_LRS"
+    },
+    "username": {
+      "value": "azureuser"
+    },
+    "authenticationType": {
+      "value": "password"
+    },
+    "password": {
+      "value": "SuperP@ssw0rd"
+    },
+    "sshPublicKey": {
+      "value": "AAAAB3NzaC1yc2EAAAADAQABAAABAQDEkrNF+syc1tTBDWgfOrGwipFae6ifwNKDhVSaXNjEOdtr/o8dL98nbxV/SKqoG1WuV+ixvwKY/uKOBE7HTcNS65dj8C1nObitfm0AU4aLtBQTgUju3gHi63rIZ+0eghHHR9U8PnCYlT4i2N/DYPawJTPfh4obDj472CEJZ69dgj4AZJzLwqiHcDcQiK3dSvztcOMT8AnZfwYkaXzlinstEwBLajD8BCBea0f7iN0wAF605COqh3yIKlw9WMSkPGDF2bAdQZ0wSqCV3RN+uvxgukuSl2hCNPx+29AqYty9IFMxtEgVX4+KV+0AeVLWSRlERaQMwlXzJHMAKLFA1IpH"
+    },
+    "appName": {
+      "value": "e2eFunction"
+    },
+    "sku": {
+      "value": "Standard"
+    },
+    "skuCode": {
+      "value": "S1"
+    },
+    "workerSize": {
+      "value": "0"
     }
   }
 }
