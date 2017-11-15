@@ -59,6 +59,7 @@
         }
     },
     "variables": {
+        "bogusVariable": "itsnotreal",
         "apiVersions": {
             "web": {
                 "sites": "2016-08-01",
