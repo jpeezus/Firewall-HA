@@ -1,0 +1,12 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_EXTENSION_VERSION": "~1",
+    "ScmType": "GitHub",
+    "WEBSITE_AUTH_ENABLED": "False",
+    "AzureWebJobsDashboard": "DefaultEndpointsProtocol=https;AccountName=t7z5n44s4qamqfunctions;AccountKey=4pcQSMfeH5GZ59bXR3beaD6xxs591oOWsDgjLonr8il6f+sKJ/IaYO1ijSlseNyskjroT4OMjzym6HFH3XJ0NQ==;",
+    "WEBSITE_SITE_NAME": "functionApp111017",
+    "WEBSITE_SLOT_NAME": "Production",
+    "AzureWebJobsStorage": "DefaultEndpointsProtocol=https;AccountName=t7z5n44s4qamqfunctions;AccountKey=4pcQSMfeH5GZ59bXR3beaD6xxs591oOWsDgjLonr8il6f+sKJ/IaYO1ijSlseNyskjroT4OMjzym6HFH3XJ0NQ==;"
+  }
+}

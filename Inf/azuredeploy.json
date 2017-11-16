@@ -263,7 +263,7 @@
   },
   "variables": {
     "LoadBalancerType" : "layer-7",
-    "firewallVmCount" : 2,
+    "firewallVmCount" : 10,
     "baseUrl" : "https://istorethings1.blob.core.windows.net/paloalto",
     "nsgURL" : "[concat(variables('baseUrl'),'/nsg-new.json')]",
     "vnetURL" : "[concat(variables('baseUrl'),'/vnet-', parameters('virtualNetworkNewOrExisting'),'.json')]",
