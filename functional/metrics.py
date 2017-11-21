@@ -233,6 +233,7 @@ def test():
         logger.info("[INFO]: Successfully executed command urlopen. Now publish metrics")
         pan_print(response)
         cw_func_metrics[ScalingParameter](resp_header, Namespace, asg_name)
+        output.write(response)
 
 if remote == 0:
     test()

@@ -242,7 +242,7 @@
       }
     },
     "sshPublicKey": {
-      "type": "string",
+      "type": "securestring",
       "defaultValue": "",
       "metadata": {
         "description": "SSH RSA public key file as a string. Must be specified if Authentication Type is 'sshPublicKey'."
@@ -258,6 +258,15 @@
       "type": "string"
     },
     "workerSize": {
+      "type": "string"
+    },
+    "apiKey": {
+      "type": "string"
+    },
+    "minThreashhold": {
+      "type": "string"
+    },
+    "maxThreashhold": {
       "type": "string"
     }
   },
